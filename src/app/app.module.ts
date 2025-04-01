@@ -43,7 +43,7 @@ import { UserLoginComponent } from './components/pages/user-login/user-login.com
     ReactiveFormsModule,
     FontAwesomeModule,
     JogoComponent,
-    UserRegistrationComponent,
+    
     UserLoginComponent
   ],
   providers: [],

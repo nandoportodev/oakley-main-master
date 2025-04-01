@@ -1,6 +1,6 @@
 import {
   getDOM
-} from "./chunk-53XSTCZ2.js";
+} from "./chunk-PRLYSXVD.js";
 import {
   ChangeDetectorRef,
   Directive,
@@ -45,7 +45,7 @@ import {
   ɵɵdirectiveInject,
   ɵɵgetInheritedFactory,
   ɵɵlistener
-} from "./chunk-NWEST3AH.js";
+} from "./chunk-KQ2EHWFX.js";
 import {
   __spreadProps,
   __spreadValues
@@ -316,7 +316,7 @@ var Validators = class {
    * @returns A validator function that returns an error map with the
    * `min` property if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static min(min) {
@@ -339,7 +339,7 @@ var Validators = class {
    * @returns A validator function that returns an error map with the
    * `max` property if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static max(max) {
@@ -362,7 +362,7 @@ var Validators = class {
    * @returns An error map with the `required` property
    * if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static required(control) {
@@ -386,7 +386,7 @@ var Validators = class {
    * @returns An error map that contains the `required` property
    * set to `true` if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static requiredTrue(control) {
@@ -425,7 +425,7 @@ var Validators = class {
    * @returns An error map with the `email` property
    * if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static email(control) {
@@ -459,7 +459,7 @@ var Validators = class {
    * @returns A validator function that returns an error map with the
    * `minlength` property if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static minLength(minLength) {
@@ -490,7 +490,7 @@ var Validators = class {
    * @returns A validator function that returns an error map with the
    * `maxlength` property if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static maxLength(maxLength) {
@@ -542,7 +542,7 @@ var Validators = class {
    * @returns A validator function that returns an error map with the
    * `pattern` property if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static pattern(pattern) {
@@ -552,11 +552,11 @@ var Validators = class {
    * @description
    * Validator that performs no operation.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static nullValidator(control) {
-    return nullValidator();
+    return nullValidator(control);
   }
   static compose(validators) {
     return compose(validators);
@@ -569,7 +569,7 @@ var Validators = class {
    * @returns A validator function that returns an error map with the
    * merged error objects of the async validators if the validation check fails, otherwise `null`.
    *
-   * @see {@link /api/forms/AbstractControl#updateValueAndValidity updateValueAndValidity}
+   * @see {@link updateValueAndValidity()}
    *
    */
   static composeAsync(validators) {
@@ -6714,7 +6714,7 @@ var UntypedFormBuilder = class _UntypedFormBuilder extends FormBuilder {
     }]
   }], null, null);
 })();
-var VERSION = new Version("19.2.4");
+var VERSION = new Version("19.2.0");
 var FormsModule = class _FormsModule {
   /**
    * @description
@@ -6867,8 +6867,8 @@ export {
 
 @angular/forms/fesm2022/forms.mjs:
   (**
-   * @license Angular v19.2.4
-   * (c) 2010-2025 Google LLC. https://angular.io/
+   * @license Angular v19.2.0
+   * (c) 2010-2024 Google LLC. https://angular.io/
    * License: MIT
    *)
 */

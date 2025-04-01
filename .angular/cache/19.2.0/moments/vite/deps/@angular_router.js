@@ -1,7 +1,7 @@
 import {
   Title
-} from "./chunk-LJJDPCP3.js";
-import "./chunk-E3UI5G42.js";
+} from "./chunk-JPWDTOPA.js";
+import "./chunk-YCSL6CSW.js";
 import {
   DOCUMENT,
   HashLocationStrategy,
@@ -10,7 +10,7 @@ import {
   LocationStrategy,
   PathLocationStrategy,
   ViewportScroller
-} from "./chunk-53XSTCZ2.js";
+} from "./chunk-PRLYSXVD.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   APP_INITIALIZER,
@@ -78,6 +78,7 @@ import {
   mergeMap,
   of,
   pipe,
+  publishExternalGlobalUtil,
   refCount,
   reflectComponentType,
   runInInjectionContext,
@@ -108,7 +109,7 @@ import {
   ɵɵloadQuery,
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl
-} from "./chunk-NWEST3AH.js";
+} from "./chunk-KQ2EHWFX.js";
 import {
   __spreadProps,
   __spreadValues
@@ -783,8 +784,8 @@ function computeNavigation(commands) {
     }
     if (cmdIdx === 0) {
       cmd.split("/").forEach((urlPart, partIndex) => {
-        if (partIndex == 0 && urlPart === ".") ;
-        else if (partIndex == 0 && urlPart === "") {
+        if (partIndex == 0 && urlPart === ".") {
+        } else if (partIndex == 0 && urlPart === "") {
           isAbsolute = true;
         } else if (urlPart === "..") {
           numberOfDoubleDots++;
@@ -3639,22 +3640,42 @@ var NavigationTransitions = class _NavigationTransitions {
   }
   handleNavigationRequest(request) {
     const id = ++this.navigationId;
-    this.transitions?.next(__spreadProps(__spreadValues({}, request), {
-      extractedUrl: this.urlHandlingStrategy.extract(request.rawUrl),
+    this.transitions?.next(__spreadProps(__spreadValues(__spreadValues({}, this.transitions.value), request), {
+      id
+    }));
+  }
+  setupNavigations(router, initialUrlTree, initialRouterState) {
+    this.transitions = new BehaviorSubject({
+      id: 0,
+      currentUrlTree: initialUrlTree,
+      currentRawUrl: initialUrlTree,
+      extractedUrl: this.urlHandlingStrategy.extract(initialUrlTree),
+      urlAfterRedirects: this.urlHandlingStrategy.extract(initialUrlTree),
+      rawUrl: initialUrlTree,
+      extras: {},
+      resolve: () => {
+      },
+      reject: () => {
+      },
+      promise: Promise.resolve(true),
+      source: IMPERATIVE_NAVIGATION,
+      restoredState: null,
+      currentSnapshot: initialRouterState.snapshot,
       targetSnapshot: null,
+      currentRouterState: initialRouterState,
       targetRouterState: null,
       guards: {
         canActivateChecks: [],
         canDeactivateChecks: []
       },
-      guardsResult: null,
-      id
-    }));
-  }
-  setupNavigations(router) {
-    this.transitions = new BehaviorSubject(null);
+      guardsResult: null
+    });
     return this.transitions.pipe(
-      filter((t) => t !== null),
+      filter((t) => t.id !== 0),
+      // Extract URL
+      map((t) => __spreadProps(__spreadValues({}, t), {
+        extractedUrl: this.urlHandlingStrategy.extract(t.rawUrl)
+      })),
       // Using switchMap so we cancel executing navigations when a new one comes in
       switchMap((overallTransitionState) => {
         let completed = false;
@@ -3690,8 +3711,9 @@ var NavigationTransitions = class _NavigationTransitions {
               return of(t).pipe(
                 // Fire NavigationStart event
                 switchMap((t2) => {
+                  const transition = this.transitions?.getValue();
                   this.events.next(new NavigationStart(t2.id, this.urlSerializer.serialize(t2.extractedUrl), t2.source, t2.restoredState));
-                  if (t2.id !== this.navigationId) {
+                  if (transition !== this.transitions?.getValue()) {
                     return EMPTY;
                   }
                   return Promise.resolve(t2);
@@ -3766,26 +3788,26 @@ var NavigationTransitions = class _NavigationTransitions {
           }),
           // --- RESOLVE ---
           switchTap((t) => {
-            if (t.guards.canActivateChecks.length === 0) {
-              return void 0;
-            }
-            return of(t).pipe(tap((t2) => {
-              const resolveStart = new ResolveStart(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
-              this.events.next(resolveStart);
-            }), switchMap((t2) => {
-              let dataResolved = false;
-              return of(t2).pipe(resolveData(this.paramsInheritanceStrategy, this.environmentInjector), tap({
-                next: () => dataResolved = true,
-                complete: () => {
-                  if (!dataResolved) {
-                    this.cancelNavigationTransition(t2, typeof ngDevMode === "undefined" || ngDevMode ? `At least one route resolver didn't emit any value.` : "", NavigationCancellationCode.NoDataFromResolver);
+            if (t.guards.canActivateChecks.length) {
+              return of(t).pipe(tap((t2) => {
+                const resolveStart = new ResolveStart(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
+                this.events.next(resolveStart);
+              }), switchMap((t2) => {
+                let dataResolved = false;
+                return of(t2).pipe(resolveData(this.paramsInheritanceStrategy, this.environmentInjector), tap({
+                  next: () => dataResolved = true,
+                  complete: () => {
+                    if (!dataResolved) {
+                      this.cancelNavigationTransition(t2, typeof ngDevMode === "undefined" || ngDevMode ? `At least one route resolver didn't emit any value.` : "", NavigationCancellationCode.NoDataFromResolver);
+                    }
                   }
-                }
+                }));
+              }), tap((t2) => {
+                const resolveEnd = new ResolveEnd(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
+                this.events.next(resolveEnd);
               }));
-            }), tap((t2) => {
-              const resolveEnd = new ResolveEnd(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
-              this.events.next(resolveEnd);
-            }));
+            }
+            return void 0;
           }),
           // --- LOAD COMPONENTS ---
           switchTap((t) => {
@@ -4145,7 +4167,8 @@ var HistoryStateManager = class _HistoryStateManager extends StateManager {
       } else if (this.currentUrlTree === navigation.finalUrl && targetPagePosition === 0) {
         this.resetState(navigation);
         this.resetUrlToCurrentUrlTree();
-      } else ;
+      } else {
+      }
     } else if (this.canceledNavigationResolution === "replace") {
       if (restoringFromCaughtError) {
         this.resetState(navigation);
@@ -4292,7 +4315,7 @@ var Router = class _Router {
   });
   constructor() {
     this.resetConfig(this.config);
-    this.navigationTransitions.setupNavigations(this).subscribe({
+    this.navigationTransitions.setupNavigations(this, this.currentUrlTree, this.routerState).subscribe({
       error: (e) => {
         this.console.warn(ngDevMode ? `Unhandled Navigation Error: ${e}` : e);
       }
@@ -5854,7 +5877,11 @@ function mapToCanDeactivate(providers) {
 function mapToResolve(provider) {
   return (...params) => inject(provider).resolve(...params);
 }
-var VERSION = new Version("19.2.4");
+var VERSION = new Version("19.2.0");
+function getLoadedRoutes(route) {
+  return route._loadedRoutes;
+}
+publishExternalGlobalUtil("ɵgetLoadedRoutes", getLoadedRoutes);
 export {
   ActivatedRoute,
   ActivatedRouteSnapshot,
@@ -5939,8 +5966,8 @@ export {
 
 @angular/router/fesm2022/router.mjs:
   (**
-   * @license Angular v19.2.4
-   * (c) 2010-2025 Google LLC. https://angular.io/
+   * @license Angular v19.2.0
+   * (c) 2010-2024 Google LLC. https://angular.io/
    * License: MIT
    *)
 */

@@ -231,11 +231,9 @@ import {
   isSignal,
   isStandalone,
   isSubscribable,
-  isViewDirty,
   linkedSignal,
   makeEnvironmentProviders,
   makeStateKey,
-  markForRefresh,
   mergeApplicationConfig,
   microtaskEffect,
   model,
@@ -495,7 +493,7 @@ import {
   ɵɵvalidateIframeAttribute,
   ɵɵviewQuery,
   ɵɵviewQuerySignal
-} from "./chunk-NWEST3AH.js";
+} from "./chunk-KQ2EHWFX.js";
 import "./chunk-WDMUDEB6.js";
 export {
   ANIMATION_MODULE_TYPE,
@@ -757,8 +755,6 @@ export {
   isNgModule as ɵisNgModule,
   isPromise as ɵisPromise,
   isSubscribable as ɵisSubscribable,
-  isViewDirty as ɵisViewDirty,
-  markForRefresh as ɵmarkForRefresh,
   microtaskEffect as ɵmicrotaskEffect,
   noSideEffects as ɵnoSideEffects,
   patchComponentDefWithScope as ɵpatchComponentDefWithScope,

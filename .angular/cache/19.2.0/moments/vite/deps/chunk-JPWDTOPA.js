@@ -1,6 +1,6 @@
 import {
   withHttpTransferCache
-} from "./chunk-E3UI5G42.js";
+} from "./chunk-YCSL6CSW.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -11,7 +11,7 @@ import {
   isPlatformServer,
   parseCookieValue,
   setRootDomAdapter
-} from "./chunk-53XSTCZ2.js";
+} from "./chunk-PRLYSXVD.js";
 import {
   APP_ID,
   ApplicationModule,
@@ -70,7 +70,7 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-NWEST3AH.js";
+} from "./chunk-KQ2EHWFX.js";
 import {
   __spreadProps,
   __spreadValues
@@ -782,11 +782,11 @@ var DefaultDomRenderer2 = class {
     if (typeof target === "string") {
       target = getDOM().getGlobalEventTarget(this.doc, target);
       if (!target) {
-        throw new RuntimeError(5102, (typeof ngDevMode === "undefined" || ngDevMode) && `Unsupported event target ${target} for event ${event}`);
+        throw new Error(`Unsupported event target ${target} for event ${event}`);
       }
     }
     let wrappedCallback = this.decoratePreventDefault(callback);
-    if (this.tracingService?.wrapEventListener) {
+    if (this.tracingService !== null && this.tracingService.wrapEventListener) {
       wrappedCallback = this.tracingService.wrapEventListener(target, event, wrappedCallback);
     }
     return this.eventManager.addEventListener(target, event, wrappedCallback, options);
@@ -1967,7 +1967,7 @@ function provideClientHydration(...features) {
   }
   return makeEnvironmentProviders([typeof ngDevMode !== "undefined" && ngDevMode ? provideZoneJsCompatibilityDetector() : [], withDomHydration(), featuresKind.has(HydrationFeatureKind.NoHttpTransferCache) || hasHttpTransferCacheOptions ? [] : withHttpTransferCache({}), providers]);
 }
-var VERSION = new Version("19.2.4");
+var VERSION = new Version("19.2.0");
 
 export {
   BrowserDomAdapter,
@@ -1983,6 +1983,8 @@ export {
   bootstrapApplication,
   createApplication,
   provideProtractorTestingSupport,
+  initDomAdapter,
+  INTERNAL_BROWSER_PLATFORM_PROVIDERS,
   platformBrowser,
   BrowserModule,
   Meta,
@@ -2010,9 +2012,9 @@ export {
 
 @angular/platform-browser/fesm2022/platform-browser.mjs:
   (**
-   * @license Angular v19.2.4
-   * (c) 2010-2025 Google LLC. https://angular.io/
+   * @license Angular v19.2.0
+   * (c) 2010-2024 Google LLC. https://angular.io/
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-LJJDPCP3.js.map
+//# sourceMappingURL=chunk-JPWDTOPA.js.map

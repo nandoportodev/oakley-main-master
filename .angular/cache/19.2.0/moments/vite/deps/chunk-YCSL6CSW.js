@@ -3,7 +3,7 @@ import {
   XhrFactory,
   isPlatformServer,
   parseCookieValue
-} from "./chunk-53XSTCZ2.js";
+} from "./chunk-PRLYSXVD.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   ApplicationRef,
@@ -46,7 +46,7 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-NWEST3AH.js";
+} from "./chunk-KQ2EHWFX.js";
 import {
   __async,
   __objRest,
@@ -2240,7 +2240,7 @@ function makeHttpResourceFn(responseType) {
   return function httpResourceRef(request, options) {
     options?.injector || assertInInjectionContext(httpResource);
     const injector = options?.injector ?? inject(Injector);
-    return new HttpResourceImpl(injector, () => normalizeRequest(request, responseType), options?.defaultValue, options?.parse, options?.equal);
+    return new HttpResourceImpl(injector, () => normalizeRequest(request, responseType), options?.defaultValue, options?.parse);
   };
 }
 function normalizeRequest(request, responseType) {
@@ -2261,9 +2261,7 @@ function normalizeRequest(request, responseType) {
     params,
     reportProgress: unwrappedRequest.reportProgress,
     withCredentials: unwrappedRequest.withCredentials,
-    responseType,
-    context: unwrappedRequest.context,
-    transferCache: unwrappedRequest.transferCache
+    responseType
   });
 }
 var HttpResourceImpl = class extends ResourceImpl {
@@ -2283,7 +2281,7 @@ var HttpResourceImpl = class extends ResourceImpl {
   headers = computed(() => this.status() === ResourceStatus.Resolved || this.status() === ResourceStatus.Error ? this._headers() : void 0);
   progress = this._progress.asReadonly();
   statusCode = this._statusCode.asReadonly();
-  constructor(injector, request, defaultValue, parse, equal) {
+  constructor(injector, request, defaultValue, parse) {
     super(request, ({
       request: request2,
       abortSignal
@@ -2335,8 +2333,11 @@ var HttpResourceImpl = class extends ResourceImpl {
         }
       });
       return promise;
-    }, defaultValue, equal, injector);
+    }, defaultValue, void 0, injector);
     this.client = injector.get(HttpClient);
+  }
+  hasValue() {
+    return super.hasValue();
   }
 };
 var HTTP_TRANSFER_CACHE_ORIGIN_MAP = new InjectionToken(ngDevMode ? "HTTP_TRANSFER_CACHE_ORIGIN_MAP" : "");
@@ -2545,9 +2546,9 @@ export {
 
 @angular/common/fesm2022/http.mjs:
   (**
-   * @license Angular v19.2.4
-   * (c) 2010-2025 Google LLC. https://angular.io/
+   * @license Angular v19.2.0
+   * (c) 2010-2024 Google LLC. https://angular.io/
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-E3UI5G42.js.map
+//# sourceMappingURL=chunk-YCSL6CSW.js.map

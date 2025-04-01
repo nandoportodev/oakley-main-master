@@ -57,7 +57,7 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-NWEST3AH.js";
+} from "./chunk-KQ2EHWFX.js";
 import {
   __async,
   __spreadProps,
@@ -1087,7 +1087,7 @@ function formatDate(value, format, locale, timezone) {
   let dateTimezoneOffset = date.getTimezoneOffset();
   if (timezone) {
     dateTimezoneOffset = timezoneToOffset(timezone, dateTimezoneOffset);
-    date = convertTimezoneToLocal(date, timezone);
+    date = convertTimezoneToLocal(date, timezone, true);
   }
   let text = "";
   parts.forEach((value2) => {
@@ -1598,7 +1598,7 @@ function addDateMinutes(date, minutes) {
   return date;
 }
 function convertTimezoneToLocal(date, timezone, reverse) {
-  const reverseValue = -1;
+  const reverseValue = reverse ? -1 : 1;
   const dateTimezoneOffset = date.getTimezoneOffset();
   const timezoneOffset = timezoneToOffset(timezone, dateTimezoneOffset);
   return addDateMinutes(date, reverseValue * (timezoneOffset - dateTimezoneOffset));
@@ -2506,7 +2506,7 @@ var NgIf = class _NgIf {
    * A template to show if the condition expression evaluates to true.
    */
   set ngIfThen(templateRef) {
-    assertTemplate(templateRef, (typeof ngDevMode === "undefined" || ngDevMode) && "ngIfThen");
+    assertTemplate("ngIfThen", templateRef);
     this._thenTemplateRef = templateRef;
     this._thenViewRef = null;
     this._updateView();
@@ -2515,7 +2515,7 @@ var NgIf = class _NgIf {
    * A template to show if the condition expression evaluates to false.
    */
   set ngIfElse(templateRef) {
-    assertTemplate(templateRef, (typeof ngDevMode === "undefined" || ngDevMode) && "ngIfElse");
+    assertTemplate("ngIfElse", templateRef);
     this._elseTemplateRef = templateRef;
     this._elseViewRef = null;
     this._updateView();
@@ -2598,9 +2598,10 @@ var NgIfContext = class {
   $implicit = null;
   ngIf = null;
 };
-function assertTemplate(templateRef, property) {
-  if (templateRef && !templateRef.createEmbeddedView) {
-    throw new RuntimeError(2020, (typeof ngDevMode === "undefined" || ngDevMode) && `${property} must be a TemplateRef, but received '${stringify(templateRef)}'.`);
+function assertTemplate(property, templateRef) {
+  const isTemplateRefOrNull = !!(!templateRef || templateRef.createEmbeddedView);
+  if (!isTemplateRefOrNull) {
+    throw new Error(`${property} must be a TemplateRef, but received '${stringify(templateRef)}'.`);
   }
 }
 var SwitchView = class {
@@ -3684,7 +3685,7 @@ function isPlatformBrowser(platformId) {
 function isPlatformServer(platformId) {
   return platformId === PLATFORM_SERVER_ID;
 }
-var VERSION = new Version("19.2.4");
+var VERSION = new Version("19.2.0");
 var ViewportScroller = class _ViewportScroller {
   // De-sugared tree-shakable injection
   // See #23917
@@ -5122,9 +5123,9 @@ export {
 
 @angular/common/fesm2022/common.mjs:
   (**
-   * @license Angular v19.2.4
-   * (c) 2010-2025 Google LLC. https://angular.io/
+   * @license Angular v19.2.0
+   * (c) 2010-2024 Google LLC. https://angular.io/
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-53XSTCZ2.js.map
+//# sourceMappingURL=chunk-PRLYSXVD.js.map
