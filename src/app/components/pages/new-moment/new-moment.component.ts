@@ -1,11 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Moment } from '../../../Moment';
 import { MomentService } from '../../../services/moment.service';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; // Apenas a importação do Angular
 import { MessagesService } from '../../../services/messages.service';
-
-
-
 
 @Component({
   selector: 'app-new-moment',
@@ -16,7 +13,8 @@ import { MessagesService } from '../../../services/messages.service';
 export class NewMomentComponent implements OnInit {
   btnText = 'Compartilhar!';
 
-  constructor(private momentService: MomentService,
+  constructor(
+    private momentService: MomentService,
     private router: Router,
     private messagesService: MessagesService
   ) {}
@@ -24,19 +22,23 @@ export class NewMomentComponent implements OnInit {
   ngOnInit(): void {}
 
   async createHandler(moment: Moment) {
-    const formData = new FormData()
-    formData.append('title', moment.title)
-    formData.append('description', moment.description)  
-    
+    const formData = new FormData();
+    formData.append('title', moment.title);
+    formData.append('description', moment.description);
+
     if (moment.image) {
-      formData.append('image', moment.image)
+      formData.append('image', moment.image); // Adiciona o arquivo ao FormData
     }
 
-    await this.momentService.createMoment(formData).subscribe()
-
-    this.messagesService.add('Lupa Postada com sucesso!');
-
-    this.router.navigate(['/']);
+    this.momentService.createMoment(formData).subscribe(
+      (response) => {
+        this.messagesService.add('Momento criado com sucesso!');
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.error('Erro ao criar momento:', error);
+      }
+    );
   }
-  }
+}
 
