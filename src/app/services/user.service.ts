@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
-import { User } from '../models/user.model';
+import { User } from '../User';
+
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  private users: User[] = [];
+  private baseApiUrl = environment.baseApiUrl;
+  private apiUrl = `${this.baseApiUrl}api/users`;
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
-  registerUser(user: User): void {
-    this.users.push(user);
-    // Here you can add logic to save the user to a backend or local storage
+  registerUser(user: User): Observable<User> {
+    return this.http.post<User>(this.apiUrl, user);
   }
 
-  getUsers(): User[] {
-    return this.users;
-  }
+ 
 }

@@ -1,0 +1,25 @@
+<form (ngSubmit)="submit()" [formGroup]="userForm" #formDir="ngForm">
+    <div class="form-group">
+        <label for="name">Nome:</label>
+        <input type="text" placeholder="NOME" formControlName="name" required />
+        <div *ngIf="name.invalid && formDir.submitted" class="validation-error">
+            <p *ngIf="name.errors?.['required']">Nome Obrigatório.</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email">E-mail:</label>
+        <input type="email" placeholder="E-MAIL" formControlName="email" required />
+        <div *ngIf="email.invalid && formDir.submitted" class="validation-error">
+            <p *ngIf="email.errors?.['required']">E-mail Obrigatório.</p>
+            <p *ngIf="email.errors?.['email']">E-mail Inválido.</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password">Senha:</label>
+        <input type="password" placeholder="SENHA" formControlName="password" required />
+        <div *ngIf="password.invalid && formDir.submitted" class="validation-error">
+            <p *ngIf="password.errors?.['required']">Senha Obrigatória.</p>
+        </div>
+    </div>
+    <input type="submit" value="{{ btnText }}" />
+</form>
