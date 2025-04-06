@@ -35,6 +35,7 @@ import { UserFormComponent } from './components/user-form/user-form.component';
     UserRegistrationComponent,
     UserFormComponent,
     
+    
   ],
   imports: [
     BrowserModule,
@@ -42,10 +43,9 @@ import { UserFormComponent } from './components/user-form/user-form.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
     JogoComponent,
-    
-    UserLoginComponent
+    FontAwesomeModule,
+    UserLoginComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
