@@ -6,15 +6,15 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-login',
-  standalone: true, // se for standalone
+  standalone: true,
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.css'],
-  imports: [CommonModule, ReactiveFormsModule] // IMPORTAÇÕES NECESSÁRIAS AQUI
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class UserLoginComponent {
   loginForm: FormGroup;
   message: string = '';
-showSuccessModal: any;
+  showSuccessModal: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -38,9 +38,14 @@ showSuccessModal: any;
     this.http.post<any>('http://localhost:3000/api/users/login', { email, password }).subscribe({
       next: (res) => {
         this.message = 'Login realizado com sucesso!';
+        this.showSuccessModal = true;
 
-        // Exibir a mensagem por 2 segundos antes de redirecionar
+        // Salvar estado de login
+        localStorage.setItem('loggedIn', 'true');
+
+        // Ocultar modal e redirecionar após 2s
         setTimeout(() => {
+          this.showSuccessModal = false;
           this.router.navigate(['/']);
         }, 2000);
       },

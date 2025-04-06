@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/pages/home/home.component';
 import { AboutComponent } from './components/pages/about/about.component';
@@ -7,17 +7,18 @@ import { MomentComponent } from './components/pages/moment/moment.component';
 import { EditMomentComponent } from './components/pages/edit-moment/edit-moment.component';
 import { JogoComponent } from './components/pages/jogo/jogo.component';
 import { UserLoginComponent } from './components/pages/user-login/user-login.component';
-import { UserRegistrationComponent } from './components/pages/user-registration/user-registration.component'; 
+import { UserRegistrationComponent } from './components/pages/user-registration/user-registration.component';
+import { AuthGuard } from './guards/auth.guard'; // <--- importar o guard
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'about', component: AboutComponent},
-  {path: 'moments/new', component: NewMomentComponent},
-  {path: 'moments/edit/:id', component: EditMomentComponent},
-  {path: 'moments/:id', component: MomentComponent},
-  {path: 'jogo', component: JogoComponent},
-  {path: 'login', component: UserLoginComponent},
-  {path: 'register', component: UserRegistrationComponent},
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // Protegido
+  { path: 'about', component: AboutComponent },
+  { path: 'moments/new', component: NewMomentComponent, canActivate: [AuthGuard] },
+  { path: 'moments/edit/:id', component: EditMomentComponent, canActivate: [AuthGuard] },
+  { path: 'moments/:id', component: MomentComponent, canActivate: [AuthGuard] },
+  { path: 'jogo', component: JogoComponent },
+  { path: 'login', component: UserLoginComponent },
+  { path: 'register', component: UserRegistrationComponent },
 ];
 
 @NgModule({
