@@ -5,7 +5,6 @@ import { AboutComponent } from './components/pages/about/about.component';
 import { NewMomentComponent } from './components/pages/new-moment/new-moment.component';
 import { MomentComponent } from './components/pages/moment/moment.component';
 import { EditMomentComponent } from './components/pages/edit-moment/edit-moment.component';
-import { JogoComponent } from './components/pages/jogo/jogo.component';
 import { UserLoginComponent } from './components/pages/user-login/user-login.component';
 import { UserRegistrationComponent } from './components/pages/user-registration/user-registration.component';
 import { AuthGuard } from './guards/auth.guard'; // <--- importar o guard
@@ -16,7 +15,6 @@ const routes: Routes = [
   { path: 'moments/new', component: NewMomentComponent, canActivate: [AuthGuard] },
   { path: 'moments/edit/:id', component: EditMomentComponent, canActivate: [AuthGuard] },
   { path: 'moments/:id', component: MomentComponent, canActivate: [AuthGuard] },
-  { path: 'jogo', component: JogoComponent },
   { path: 'login', component: UserLoginComponent },
   { path: 'register', component: UserRegistrationComponent },
 ];

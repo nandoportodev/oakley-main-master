@@ -15,7 +15,6 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MomentComponent } from './components/pages/moment/moment.component';
 import { EditMomentComponent } from './components/pages/edit-moment/edit-moment.component';
-import { JogoComponent } from './components/pages/jogo/jogo.component';
 import { UserRegistrationComponent } from './components/pages/user-registration/user-registration.component';
 import { UserLoginComponent } from './components/pages/user-login/user-login.component';
 import { UserFormComponent } from './components/user-form/user-form.component';  
@@ -43,7 +42,6 @@ import { UserFormComponent } from './components/user-form/user-form.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    JogoComponent,
     FontAwesomeModule,
     UserLoginComponent,
   ],
