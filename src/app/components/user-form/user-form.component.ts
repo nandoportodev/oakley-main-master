@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { User } from '../../User';
-
 
 @Component({
   selector: 'app-user-form',
@@ -19,12 +18,26 @@ export class UserFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.userForm = new FormGroup({
-      id: new FormControl(''),
-      name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    });
+    this.userForm = new FormGroup(
+      {
+        id: new FormControl(''),
+        name: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        confirmPassword: new FormControl('', [Validators.required]),
+      },
+      { validators: this.passwordsMatchValidator }
+    );
+  }
+
+  // Validação customizada no nível do formulário
+  passwordsMatchValidator(formGroup: AbstractControl): ValidationErrors | null {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    if (password && confirmPassword && password !== confirmPassword) {
+      return { passwordsMismatch: true };
+    }
+    return null;
   }
 
   get name() {
@@ -39,12 +52,19 @@ export class UserFormComponent implements OnInit {
     return this.userForm.get('password')!;
   }
 
+  get confirmPassword() {
+    return this.userForm.get('confirmPassword')!;
+  }
+
   submit() {
     if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
       return;
     }
-    console.log(this.userForm.value);
 
-    this.onSubmit.emit(this.userForm.value);
+    // Remover o confirmPassword antes de enviar (opcional)
+    const { confirmPassword, ...user } = this.userForm.value;
+
+    this.onSubmit.emit(user);
   }
 }
