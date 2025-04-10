@@ -17,8 +17,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // MongoDB
+const uri = process.env.MONGO_URI;
+
 mongoose
-  .connect('mongodb+srv://nandocarros:YU1LzkTD6SrFTlLE@oakley.x9y2gw7.mongodb.net/', {
+  .connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
