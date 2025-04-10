@@ -1,6 +1,6 @@
 export interface User {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-  }
+  id?: string;
+  name: string;
+  email: string;
+  password: string;
+}

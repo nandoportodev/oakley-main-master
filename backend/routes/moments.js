@@ -26,4 +26,14 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const moments = await Moment.find().sort({ created_at: -1 }); // Ordena por data de criação
+    res.status(200).json({ data: moments });
+  } catch (err) {
+    console.error('Erro ao buscar momentos:', err);
+    res.status(500).json({ error: 'Erro ao buscar momentos.' });
+  }
+});
+
 module.exports = router;

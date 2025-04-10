@@ -1,4 +1,3 @@
-
 <nav>
   <a class="brand" routerLink="/">
     <img src="./assets/oak.jpg" alt="Moments">
@@ -6,10 +5,15 @@
   </a>
   <ul class="links">
     <li><a routerLink="/">Home</a></li>
-    <li  id="add"><a routerLink="/moments/new">Compartilhar</a></li>
+    <li id="add" *ngIf="isLoggedIn()"><a routerLink="/moments/new">Compartilhar</a></li>
     <li><a routerLink="/about">Sobre</a></li>
-    <li><a routerLink="/jogo">Jogo</a></li>
-    <li><a routerLink="/register">Cadastrar</a></li>
-    <li><a routerLink="/login">Login</a></li>
+  
+    
+    <li *ngIf="!isLoggedIn()"><a routerLink="/register">Cadastrar</a></li>
+    <li *ngIf="!isLoggedIn()"><a routerLink="/login">Login</a></li>
+    
+    <li *ngIf="isLoggedIn()">
+      <button class="logout-btn" (click)="logout()">Sair</button>
+    </li>
   </ul>
 </nav>
