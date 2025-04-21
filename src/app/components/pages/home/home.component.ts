@@ -20,19 +20,33 @@ export class HomeComponent {
   searchTerms: string = '';
 
   constructor(private momentService: MomentService) {}
-
   ngOnInit(): void {
+    this.momentService.getMoments().subscribe((response: any) => {
+      console.log(response); // Verifique a estrutura da resposta no console
+      this.moments = response.data.map((moment: any) => ({
+        id: moment.id || moment._id, // Ajuste para o nome correto
+        title: moment.title,
+        created_at: new Date(moment.created_at).toLocaleDateString('pt-BR'), // Formata a data
+        image: moment.image,
+        description: moment.description, // preciso melhorar esse bloco para o antigo map.
+      }));
+    });
+  }
+ /* ngOnInit(): void {
     this.momentService.getMoments().subscribe((response) => {
       const data = response.data;
-
+  
+      console.log('Dados retornados pela API:', data); // Adicione este log
+  
       data.map((item) => {
         item.created_at = new Date(item.created_at!).toLocaleDateString('pt-br');
+        item.id = item.id
       });
-
+  
       this.allMoments = data;
       this.moments = data; // Exibe os momentos na página
     });
-  }
+  }*/
     search(e: Event): void {
 
       const target = e.target as HTMLInputElement
