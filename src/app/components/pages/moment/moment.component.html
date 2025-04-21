@@ -7,10 +7,10 @@
     </div>
     <div class="actions">
         <h3>Açoes:</h3>
-        <a routerLink="/moments/edit/{{moment.id}}" class="edit-btn">
+        <button class="edit-btn" (click)="edittHandler()">
             <fa-icon [icon]="faEdit"></fa-icon>
             Editar
-        </a>
+          </button>
         <button
         class="remove-btn"      
         (click)="removeHandler()">      

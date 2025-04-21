@@ -82,4 +82,34 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido.' });
+    }
+
+    const { title, description } = req.body;
+    const image = req.file ? req.file.filename : null;
+
+    const moment = await Moment.findById(id);
+    if (!moment) {
+      return res.status(404).json({ error: 'Momento não encontrado.' });
+    }
+
+    // Atualiza os campos (apenas se vierem)
+    if (title) moment.title = title;
+    if (description) moment.description = description;
+    if (image) moment.image = image;
+
+    await moment.save();
+
+    res.status(200).json({ message: 'Momento atualizado com sucesso!', data: moment });
+  } catch (err) {
+    console.error('Erro ao atualizar momento:', err);
+    res.status(500).json({ error: 'Erro ao atualizar momento.' });
+  }
+});
+
 module.exports = router;

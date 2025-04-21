@@ -47,6 +47,19 @@ export class MomentComponent implements OnInit {
     }
   }
 
+  edittHandler(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+  
+    if (!id) {
+      console.error('ID inválido ou não encontrado.');
+      this.messagesService.add('ID inválido ou não encontrado.');
+      return;
+    }
+  
+    this.router.navigate([`/moments/edit/${id}`]);
+  }
+  
+
   removeHandler(): void {
     const id = this.route.snapshot.paramMap.get('id'); // Obtém o ID da URL novamente
 

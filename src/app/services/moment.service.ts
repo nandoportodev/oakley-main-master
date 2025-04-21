@@ -32,5 +32,8 @@ export class MomentService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete<any>(url);
   }
-
+  updateMoment(id: String, formData: FormData): Observable<FormData> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put<FormData>(url, formData);
+  }
 }
