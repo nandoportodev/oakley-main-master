@@ -20,7 +20,7 @@ export class EditMomentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = String(this.route.snapshot.paramMap.get('id'));
     this.momentService.getMoment(id).subscribe((item) => {
       this.moment = item.data;
     });

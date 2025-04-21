@@ -28,20 +28,45 @@ export class MomentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-
-    this.momentService
-      .getMoment(id)
-      .subscribe((item) => (this.moment = item.data));
+    const id = this.route.snapshot.paramMap.get('id');
+  
+    if (id) {
+      this.momentService.getMoment(id).subscribe({
+        next: (response) => {
+          this.moment = response.data;
+          console.log('Momento carregado:', this.moment); // Verifique se o ID está presente
+        },
+        error: (err) => {
+          console.error('Erro ao buscar o momento:', err);
+          this.messagesService.add('Erro ao carregar o momento.');
+        },
+      });
+    } else {
+      console.error('ID inválido ou não encontrado na URL.');
+      this.messagesService.add('ID inválido ou não encontrado.');
+    }
   }
 
-  async removeHandler(id: number) {
-    console.log('removeHandler');
+  removeHandler(): void {
+    const id = this.route.snapshot.paramMap.get('id'); // Obtém o ID da URL novamente
 
-    await this.momentService.removeMoment(id).subscribe();
-    this.messagesService.add('Moment removed successfully');
+    if (!id) {
+      console.error('ID inválido ou não encontrado.');
+      this.messagesService.add('ID inválido ou não encontrado.');
+      return;
+    }
 
-    this.router.navigate(['/']);
-    
-}
+    console.log('Removendo momento com ID:', id);
+
+    this.momentService.removeMoment(id).subscribe({
+      next: () => {
+        this.messagesService.add('Momento removido com sucesso!');
+        this.router.navigate(['/']); // Redireciona para a página inicial
+      },
+      error: (err) => {
+        console.error('Erro ao remover o momento:', err);
+        this.messagesService.add('Erro ao remover o momento.');
+      },
+    });
+  }
 }

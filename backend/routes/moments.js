@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const mongoose = require('mongoose');
 const Moment = require('../models/Moment');
 
 // Configurar o destino dos uploads
@@ -26,6 +27,7 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
+// Rota para buscar todos os momentos
 router.get('/', async (req, res) => {
   try {
     const moments = await Moment.find().sort({ created_at: -1 }); // Ordena por data de criação
@@ -33,6 +35,50 @@ router.get('/', async (req, res) => {
   } catch (err) {
     console.error('Erro ao buscar momentos:', err);
     res.status(500).json({ error: 'Erro ao buscar momentos.' });
+  }
+});
+
+// Rota para buscar um momento específico pelo ID
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Verifica se o ID é um ObjectId válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido.' });
+    }
+
+    const moment = await Moment.findById(id);
+    if (!moment) {
+      return res.status(404).json({ error: 'Momento não encontrado.' });
+    }
+
+    res.status(200).json({ data: moment });
+  } catch (err) {
+    console.error('Erro ao buscar momento:', err);
+    res.status(500).json({ error: 'Erro interno no servidor.' });
+  }
+});
+
+// Rota para deletar um momento pelo ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Verifica se o ID é um ObjectId válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido.' });
+    }
+
+    const moment = await Moment.findByIdAndDelete(id);
+    if (!moment) {
+      return res.status(404).json({ error: 'Momento não encontrado.' });
+    }
+
+    res.status(200).json({ message: 'Momento removido com sucesso!' });
+  } catch (err) {
+    console.error('Erro ao deletar momento:', err);
+    res.status(500).json({ error: 'Erro interno no servidor.' });
   }
 });
 

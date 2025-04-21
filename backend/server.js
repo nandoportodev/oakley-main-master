@@ -20,7 +20,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const uri = process.env.MONGO_URI;
 
 mongoose
-  .connect(uri, {
+  .connect('mongodb+srv://nandocarros:YU1LzkTD6SrFTlLE@oakley.x9y2gw7.mongodb.net/', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -51,7 +51,7 @@ const createInitialUser = async () => {
   }
 };
 
-// Rotas
+// Rotas 
 const momentRoutes = require('./routes/moments');
 const userRoutes = require('./routes/users');
 

@@ -11,10 +11,13 @@
             <fa-icon [icon]="faEdit"></fa-icon>
             Editar
         </a>
-        <button class="remove-btn" (click)="removeHandler(moment.id!)">
-            <fa-icon [icon]="faTimes"></fa-icon>
-            Remover
-        </button>
+        // MELHORAR O DELETE QUE ESTA USANDO A PAGINA E O ID DIRETO SEM BUSCAR
+        <button
+        class="remove-btn"      
+        (click)="removeHandler()">      
+        <fa-icon [icon]="faTimes"></fa-icon>
+        Remover
+      </button>
         <div class="comments" >
             <h3>Comentarios (0):</h3>
         </div>
