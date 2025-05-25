@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rota para buscar um momento específico pelo ID
+// Rota para buscar um momento específico pelo ID (agora populando os comentários)
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -48,7 +48,8 @@ router.get('/:id', async (req, res) => {
       return res.status(400).json({ error: 'ID inválido.' });
     }
 
-    const moment = await Moment.findById(id);
+    // Popula os comentários ao buscar o momento
+    const moment = await Moment.findById(id).populate('comments');
     if (!moment) {
       return res.status(404).json({ error: 'Momento não encontrado.' });
     }

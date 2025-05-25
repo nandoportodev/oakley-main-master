@@ -27,8 +27,9 @@ mongoose
   .then(() => console.log('Conectado ao MongoDB!'))
   .catch((err) => console.error('Erro ao conectar ao MongoDB:', err));
 
-// Modelo de Usuário
+// Modelos
 const User = require('./models/User');
+const Comment = require('./models/Comment');
 
 // Criar usuário inicial
 const createInitialUser = async () => {
@@ -51,12 +52,15 @@ const createInitialUser = async () => {
   }
 };
 
-// Rotas 
+// Rotas
 const momentRoutes = require('./routes/moments');
 const userRoutes = require('./routes/users');
+const commentRoutes = require('./routes/comments');  // Importar a rota de comentários
 
 app.use('/api/moments', momentRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/moments', commentRoutes);  // Usar as rotas de comentários
+
 
 // Iniciar servidor
 app.listen(port, () => {

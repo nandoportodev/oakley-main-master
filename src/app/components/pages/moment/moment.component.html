@@ -1,24 +1,57 @@
 <div class="moment" *ngIf="moment">
-    <h1>{{moment.title}}</h1>
-    <img src="{{baseApiUrl}}uploads/{{moment.image}}" alt="{{moment.title}}"/>
-    <div class="about-moment">
-        <h3>Sobre esse Momento:</h3>
-        <p>{{moment.description}}</p>
+  <h1>{{ moment.title }}</h1>
+  <img src="{{ baseApiUrl }}uploads/{{ moment.image }}" alt="{{ moment.title }}" />
+
+  <div class="about-moment">
+    <h3>Sobre esse Momento:</h3>
+    <p>{{ moment.description }}</p>
+  </div>
+
+  <div class="actions">
+    <h3>Ações:</h3>
+    <button class="edit-btn" (click)="edittHandler()">
+      <fa-icon [icon]="faEdit"></fa-icon>
+      Editar
+    </button>
+    <button class="remove-btn" (click)="removeHandler()">
+      <fa-icon [icon]="faTimes"></fa-icon>
+      Remover
+    </button>
+  </div>
+
+  <div class="comments">
+    <h3>Comentários ({{ moment.comments?.length || 0 }}):</h3>
+  </div>
+
+  <ng-container *ngIf="moment.comments && moment.comments.length > 0; else noComments">
+    <div class="comment-container" *ngFor="let comment of moment.comments">
+      <p class="author"><span>por:</span> {{ comment.username }}</p>
+      <p class="comment">{{ comment.text }}</p>
     </div>
-    <div class="actions">
-        <h3>Açoes:</h3>
-        <button class="edit-btn" (click)="edittHandler()">
-            <fa-icon [icon]="faEdit"></fa-icon>
-            Editar
-          </button>
-        <button
-        class="remove-btn"      
-        (click)="removeHandler()">      
-        <fa-icon [icon]="faTimes"></fa-icon>
-        Remover
-      </button>
-        <div class="comments" >
-            <h3>Comentarios (0):</h3>
+  </ng-container>
+
+  <ng-template #noComments>
+    <p>Esse momento ainda não possui comentários.</p>
+  </ng-template>
+
+  <div class="comment-form">
+    <h3>Deixe um comentário:</h3>
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit(formDirective)" #formDirective="ngForm">
+      <div class="form-group">
+        <label for="text">Comentário:</label>
+        <textarea formControlName="text" placeholder="O que vai comentar?" required></textarea>
+        <div *ngIf="text?.invalid && formDirective.submitted" class="validation-error">
+          <p *ngIf="text?.errors?.['required']">Texto obrigatório</p>
         </div>
-    </div>
+      </div>
+      <div class="form-group">
+        <label for="username">Nome:</label>
+        <input formControlName="username" type="text" placeholder="Seu nome" required />
+        <div *ngIf="username?.invalid && formDirective.submitted" class="validation-error">
+          <p *ngIf="username?.errors?.['required']">Nome obrigatório</p>
+        </div>
+      </div>
+      <input type="submit" value="Comentar!" />
+    </form>
+  </div>
 </div>

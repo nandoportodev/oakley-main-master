@@ -5,6 +5,7 @@ const MomentSchema = new mongoose.Schema({
   description: { type: String, required: true },
   image: { type: String }, // Caminho ou URL da imagem
   created_at: { type: Date, default: Date.now },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }] // <<< ADICIONE ESTA LINHA
 });
 
 module.exports = mongoose.model('Moment', MomentSchema);

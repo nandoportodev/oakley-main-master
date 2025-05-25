@@ -4,14 +4,16 @@ import { Moment } from '../../../Moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { MessagesService } from '../../../services/messages.service';
-
+import { Comment } from '../../../Comment';
+import { FormGroup, FormControl, FormGroupDirective, Validators } from '@angular/forms';
 import { faTimes, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { CommentService } from '../../../services/comment.service';
 
 @Component({
   selector: 'app-moment',
   standalone: false,
   templateUrl: './moment.component.html',
-  styleUrl: './moment.component.css',
+  styleUrls: ['./moment.component.css'],
 })
 export class MomentComponent implements OnInit {
   moment?: Moment;
@@ -20,65 +22,94 @@ export class MomentComponent implements OnInit {
   faTimes = faTimes;
   faEdit = faEdit;
 
+  commentForm!: FormGroup;
+
   constructor(
     private momentService: MomentService,
     private route: ActivatedRoute,
     private messagesService: MessagesService,
+    private commentService: CommentService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-  
+
     if (id) {
       this.momentService.getMoment(id).subscribe({
         next: (response) => {
           this.moment = response.data;
-          console.log('Momento carregado:', this.moment); // Verifique se o ID está presente
         },
-        error: (err) => {
-          console.error('Erro ao buscar o momento:', err);
+        error: () => {
           this.messagesService.add('Erro ao carregar o momento.');
         },
       });
     } else {
-      console.error('ID inválido ou não encontrado na URL.');
       this.messagesService.add('ID inválido ou não encontrado.');
     }
+
+    this.commentForm = new FormGroup({
+      text: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required]),
+    });
+  }
+
+  get text() {
+    return this.commentForm ? this.commentForm.get('text') : null;
+  }
+  
+  get username() {
+    return this.commentForm ? this.commentForm.get('username') : null;
   }
 
   edittHandler(): void {
     const id = this.route.snapshot.paramMap.get('id');
-  
-    if (!id) {
-      console.error('ID inválido ou não encontrado.');
-      this.messagesService.add('ID inválido ou não encontrado.');
-      return;
+    if (id) {
+      this.router.navigate([`/moments/edit/${id}`]);
     }
-  
-    this.router.navigate([`/moments/edit/${id}`]);
   }
-  
 
   removeHandler(): void {
-    const id = this.route.snapshot.paramMap.get('id'); // Obtém o ID da URL novamente
-
-    if (!id) {
-      console.error('ID inválido ou não encontrado.');
-      this.messagesService.add('ID inválido ou não encontrado.');
-      return;
-    }
-
-    console.log('Removendo momento com ID:', id);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
 
     this.momentService.removeMoment(id).subscribe({
       next: () => {
         this.messagesService.add('Momento removido com sucesso!');
-        this.router.navigate(['/']); // Redireciona para a página inicial
+        this.router.navigate(['/']);
       },
-      error: (err) => {
-        console.error('Erro ao remover o momento:', err);
+      error: () => {
         this.messagesService.add('Erro ao remover o momento.');
+      },
+    });
+  }
+
+  onSubmit(formDirective: FormGroupDirective): void {
+    const momentId = this.route.snapshot.paramMap.get('id');
+    console.log('Moment ID:', momentId);
+  
+  
+    if (this.commentForm.invalid || !momentId) {
+      console.log('Form inválido ou ID ausente');
+      return;
+    }
+  
+    const data: Comment = this.commentForm.value;
+    data.momentId = momentId; // Usando o ID capturado da rota
+  
+    this.commentService.createComment(data).subscribe({
+    next: (comment) => {
+      this.messagesService.add('Comentário adicionado com sucesso!');
+      this.commentForm.reset();
+      formDirective.resetForm();
+
+      // Atualiza o momento para buscar os comentários atualizados
+      this.momentService.getMoment(momentId).subscribe((moment) => {
+        this.moment = moment.data;
+      });
+    },
+      error: () => {
+        this.messagesService.add('Erro ao adicionar comentário.');
       },
     });
   }
