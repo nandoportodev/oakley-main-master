@@ -40,7 +40,7 @@ export class UserLoginComponent {
         this.message = 'Login realizado com sucesso!';
         this.showSuccessModal = true;
 
-        // Salvar estado de login
+        localStorage.setItem('user', JSON.stringify(res.user)); // <-- ajuste aqui conforme o nome do campo retornado pelo backend
         localStorage.setItem('loggedIn', 'true');
 
         // Ocultar modal e redirecionar após 2s

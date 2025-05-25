@@ -8,6 +8,7 @@ import { Comment } from '../../../Comment';
 import { FormGroup, FormControl, FormGroupDirective, Validators } from '@angular/forms';
 import { faTimes, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { CommentService } from '../../../services/comment.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-moment',
@@ -29,7 +30,8 @@ export class MomentComponent implements OnInit {
     private route: ActivatedRoute,
     private messagesService: MessagesService,
     private commentService: CommentService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -50,16 +52,11 @@ export class MomentComponent implements OnInit {
 
     this.commentForm = new FormGroup({
       text: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
     });
   }
 
   get text() {
     return this.commentForm ? this.commentForm.get('text') : null;
-  }
-  
-  get username() {
-    return this.commentForm ? this.commentForm.get('username') : null;
   }
 
   edittHandler(): void {
@@ -86,28 +83,31 @@ export class MomentComponent implements OnInit {
 
   onSubmit(formDirective: FormGroupDirective): void {
     const momentId = this.route.snapshot.paramMap.get('id');
-    console.log('Moment ID:', momentId);
-  
-  
     if (this.commentForm.invalid || !momentId) {
-      console.log('Form inválido ou ID ausente');
       return;
     }
-  
-    const data: Comment = this.commentForm.value;
-    data.momentId = momentId; // Usando o ID capturado da rota
-  
-    this.commentService.createComment(data).subscribe({
-    next: (comment) => {
-      this.messagesService.add('Comentário adicionado com sucesso!');
-      this.commentForm.reset();
-      formDirective.resetForm();
 
-      // Atualiza o momento para buscar os comentários atualizados
-      this.momentService.getMoment(momentId).subscribe((moment) => {
-        this.moment = moment.data;
-      });
-    },
+    const user = this.userService.getUser();
+    if (!user) {
+      this.messagesService.add('Usuário não está logado.');
+      return;
+    }
+
+    const data: Comment = this.commentForm.value;
+    data.momentId = momentId;
+    data.username = user.name; // Usa o campo 'name' do usuário
+
+    this.commentService.createComment(data).subscribe({
+      next: (comment) => {
+        this.messagesService.add('Comentário adicionado com sucesso!');
+        this.commentForm.reset();
+        formDirective.resetForm();
+
+        // Atualiza o momento para buscar os comentários atualizados
+        this.momentService.getMoment(momentId).subscribe((moment) => {
+          this.moment = moment.data;
+        });
+      },
       error: () => {
         this.messagesService.add('Erro ao adicionar comentário.');
       },

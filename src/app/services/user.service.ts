@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -19,5 +18,9 @@ export class UserService {
     return this.http.post<User>(this.apiUrl, user);
   }
 
- 
+  // Adicionado: método para obter o usuário logado do localStorage
+  getUser(): any {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  }
 }
