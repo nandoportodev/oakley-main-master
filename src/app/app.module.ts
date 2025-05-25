@@ -17,7 +17,8 @@ import { MomentComponent } from './components/pages/moment/moment.component';
 import { EditMomentComponent } from './components/pages/edit-moment/edit-moment.component';
 import { UserRegistrationComponent } from './components/pages/user-registration/user-registration.component';
 import { UserLoginComponent } from './components/pages/user-login/user-login.component';
-import { UserFormComponent } from './components/user-form/user-form.component';  
+import { UserFormComponent } from './components/user-form/user-form.component';
+import { UserProfileComponent } from './components/pages/user-profile/user-profile.component';  
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { UserFormComponent } from './components/user-form/user-form.component';
     UserFormComponent,
     
     
+    
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ import { UserFormComponent } from './components/user-form/user-form.component';
     ReactiveFormsModule,
     FontAwesomeModule,
     UserLoginComponent,
+    UserProfileComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

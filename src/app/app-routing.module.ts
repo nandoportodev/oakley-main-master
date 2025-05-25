@@ -8,6 +8,7 @@ import { EditMomentComponent } from './components/pages/edit-moment/edit-moment.
 import { UserLoginComponent } from './components/pages/user-login/user-login.component';
 import { UserRegistrationComponent } from './components/pages/user-registration/user-registration.component';
 import { AuthGuard } from './guards/auth.guard'; // <--- importar o guard
+import { UserProfileComponent } from './components/pages/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // Protegido
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'moments/:id', component: MomentComponent, canActivate: [AuthGuard] },
   { path: 'login', component: UserLoginComponent },
   { path: 'register', component: UserRegistrationComponent },
+  { path: 'perfil', component: UserProfileComponent },
 ];
 
 @NgModule({
