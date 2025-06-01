@@ -52,7 +52,15 @@ router.post('/login', async (req, res) => {
     }
 
     // Login bem-sucedido
-    res.status(200).json({ message: 'Login realizado com sucesso!', user: { id: user._id, name: user.name, email: user.email } });
+    res.status(200).json({
+      message: 'Login realizado com sucesso!',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        created_at: user.created_at // <-- agora retorna a data de criação
+      }
+    });
   } catch (err) {
     console.error('Erro no login:', err);
     res.status(500).json({ error: 'Erro interno no servidor.' });

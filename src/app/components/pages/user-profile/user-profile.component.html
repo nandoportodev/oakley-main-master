@@ -2,4 +2,5 @@
   <h2>Perfil do Usuário</h2>
   <p><strong>Seu nome de usuário:</strong> {{ user.name }}</p>
   <p><strong>Seu email:</strong> {{ user.email }}</p>
+  <p><strong>Data de criação da conta:</strong> {{ user.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
 </div>
